@@ -1,6 +1,6 @@
 #!/usr/local/bin/python
 
-import urllib2, argparse, pprint
+import urllib2, argparse, pprint, sys
 
 
 parser = argparse.ArgumentParser(description='Update DNS record dynamically')
@@ -29,7 +29,14 @@ try:
     u.close()
 except urllib2.HTTPError, e:
     print "HTTP error: " + str(e)
+    sys.exit(1)
 except urllib2.URLError, e:
     print "Network error: " + str(e)
+    sys.exit(2)
 except ValueError, e:
     print "Invalid URL: " + args.url[0]
+    sys.exit(3)
+
+if u.getcode() == 200:
+    # Success!
+    sys.exit(0)
