@@ -40,3 +40,6 @@ except ValueError, e:
 if u.getcode() == 200:
     # Success!
     sys.exit(0)
+else:
+    print "Failed to set DNS records."
+    sys.exit(1)
