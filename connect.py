@@ -13,6 +13,8 @@ parser.add_argument('-4', '--ipv4', nargs=1, type=str,
                     help='IPv4 address to advertise (rather than autodetect)')
 parser.add_argument('-6', '--ipv6', nargs=1, type=str,
                     help='IPv6 address to advertise (will not be autodetected)')
+parser.add_argument('-v', '--verbose', action='store_true', dest='verbose',
+                    help='Display verbose results from the server')
 
 args = parser.parse_args()
 
@@ -25,7 +27,6 @@ qstring = reduce(lambda x, y: x + '&' + y,  \
 try:
     u = urllib2.urlopen(args.url[0] + '?' + qstring)
     data = u.read()
-    print data
     u.close()
 except urllib2.HTTPError, e:
     print "HTTP error: " + str(e)
@@ -36,6 +37,9 @@ except urllib2.URLError, e:
 except ValueError, e:
     print "Invalid URL: " + args.url[0]
     sys.exit(3)
+
+if args.verbose:
+    print data
 
 if u.getcode() == 200:
     # Success!
