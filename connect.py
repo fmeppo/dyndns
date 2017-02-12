@@ -19,6 +19,8 @@ parser.add_argument('-f', '--config', nargs=1, type=str, dest='config',
                     help='Specify a config file with default options')
 parser.add_argument('-l', '--ttl', nargs=1, type=int, dest='ttl',
                     help='TTL for the injected DNS record')
+parser.add_argument('-z', '--zoneid', nargs=1, type=str, dest='zoneid',
+                    help='AWS hosted zone ID string')
 
 args = parser.parse_args()
 
@@ -34,7 +36,7 @@ for f in conffile:
     config.read(f)
 
 for host in vargs['fqdn']:
-    query_args = ['fqdn','token','ipv4','ipv6', 'ttl']
+    query_args = ['fqdn','token','ipv4','ipv6', 'ttl', 'zoneid']
 
     # fqdn is fixed (it's the host we're iterating on).  The rest can come
     # from either the command line (vargs) or the config file, or be None
@@ -57,6 +59,9 @@ for host in vargs['fqdn']:
     if arghash['url'] == None:
         print "Missing URL for " + host
         sys.exit(2)
+    if arghash['zoneid'] == None:
+        print "Missing hosted zone ID for " + host
+        sys.exit(3)
 
     # Collect non-null arguments to be passed via query string, and format
     # the query string appropriately.
