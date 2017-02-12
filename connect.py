@@ -59,8 +59,8 @@ for host in vargs['fqdn']:
     # Collect non-null arguments to be passed via query string, and format
     # the query string appropriately.
     qstring = reduce(lambda x, y: x + '&' + y,  \
-                list(map(lambda x: x + '=' + str(vargs[x][0]), \
-                list(filter(lambda x: vargs[x] != None, query_args)) )) )
+                list(map(lambda x: x + '=' + str(arghash[x]), \
+                list(filter(lambda x: arghash[x] != None, query_args)) )) )
 
     try:
         u = urllib2.urlopen(arghash['url'] + '?' + qstring)
