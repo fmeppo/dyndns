@@ -17,6 +17,8 @@ parser.add_argument('-v', '--verbose', action='store_true', dest='verbose',
                     help='Display verbose results from the server')
 parser.add_argument('-f', '--config', nargs=1, type=str, dest='config',
                     help='Specify a config file with default options')
+parser.add_argument('-l', '--ttl', nargs=1, type=int, dest='ttl',
+                    help='TTL for the injected DNS record')
 
 args = parser.parse_args()
 
@@ -32,7 +34,7 @@ for f in conffile:
     config.read(f)
 
 for host in vargs['fqdn']:
-    query_args = ['fqdn','token','ipv4','ipv6']
+    query_args = ['fqdn','token','ipv4','ipv6', 'ttl']
 
     # fqdn is fixed (it's the host we're iterating on).  The rest can come
     # from either the command line (vargs) or the config file, or be None
