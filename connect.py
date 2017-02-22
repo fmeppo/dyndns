@@ -1,6 +1,6 @@
 #!/usr/local/bin/python
 
-import urllib2, argparse, pprint, sys, ConfigParser
+import urllib2, argparse, sys, ConfigParser
 
 
 parser = argparse.ArgumentParser(description='Update DNS record dynamically')
