@@ -1,0 +1,24 @@
+#!/usr/bin/env python
+
+import argparse, getpass, sha
+
+
+parser = argparse.ArgumentParser(description='Generate DNS update tokens')
+parser.add_argument('fqdn', type=str, nargs='+', help='DNS record(s) to update')
+parser.add_argument('-z', '--zoneid', nargs=1, type=str, dest='zoneid',
+                    help='Zone ID to use for these FQDNs')
+parser.add_argument('-p', '--password', nargs=1, type=str, dest='passwd',
+                    help='Secret passphrase to use for token generation ' + \
+                         '(will prompt if omitted)')
+
+args = parser.parse_args()
+
+vargs = vars(args)
+
+if vargs['passwd'] == None:
+    passwd = getpass.getpass()
+else:
+    passwd = vargs['passwd'][0]
+
+for fqdn in vargs['fqdn']:
+    print fqdn + ': ' + sha.new(fqdn + vargs['zoneid'] + passwd).hexdigest()
