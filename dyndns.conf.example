@@ -1,0 +1,4 @@
+[host.example.com]
+url=https://afisn1wec0.execute-api.us-west-1.amazonaws.com/Production
+token=d1bc8d3ba4afc7e109612cb73acbdddac052c93025aa1f82942edabb7deb82a1
+zoneid=AIE8FCNN2NC9EU
