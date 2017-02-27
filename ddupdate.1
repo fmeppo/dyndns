@@ -1,0 +1,77 @@
+.TH DDUPDATE 1
+.\" NAME should be all caps, SECTION should be 1-8, maybe w/ subsection
+.\" other parms are allowed; see man(7), man(1)
+.SH NAME
+ddupdate \- command-line interface to a dynamic DNS updater
+.SH SYNOPSIS
+.B ddupdate
+.I [options] <fqdn> [<fqdn> ...]
+.SH "DESCRIPTION"
+.BR ddupdate
+will call out to a web service, intended to be hosted as an AWS Lambda
+function, to change a DNS A (or AAAA) record to a new value.  This tool is
+highly Amazon-specific, requiring zone IDs and an access URL for each
+fully-qualified domain name (\fIfqdn\fR) provided.  If multiple \fIfqdn\fR
+arguments are given,
+.BR ddupdate
+will attempt an update for each record using default options from the
+config file.
+.PP
+Properly configuring this dynamic DNS system requires server setup beyond the
+scope of this man page.  Consult the included README for more details.
+.SH OPTIONS
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Show a summary of options, then exit.
+.TP
+\fB\-u\fR \fIurl\fR, \fB\-\-url\fR \fIurl\fR
+Use the given \fIurl\fR for communicating DNS updates.  Overrides any URL
+setting provided by a config file.
+.TP
+\fB\-t\fR \fItoken\fR, \fB\-\-token\fR \fItoken\fR
+Use the given \fItoken\fR to authorize DNS updates.  Since tokens are
+\fIfqdn\fR-specific, and this option will override any configured \fItoken\fRs
+with the given option, it's best to not use this with multiple \fIfqdn\fR
+options.
+.TP
+\fB\-4\fR \fIaddr4\fR, \fB\-\-ipv4\fR \fIaddr4\fR
+Use the given IPv4 address (\fIaddr4\fR) as the target for an A record update.
+If omitted, this value can either be provided via a config file, or
+autodetected by the remote web server.
+.TP
+\fB\-6\fR \fIaddr6\fR, \fB\-\-ipv6\fR \fIaddr6\fR
+Use the given IPv6 address (\fIaddr6\fR) as the target for a AAAA record update.
+If omitted, this value can either be provided via a config file.  Unlike the
+option for an IPv4 address, this value cannot be autodetected by the remote
+web server.
+.TP
+\fB\-v\fR, \fB\-\-verbose\fR
+Display the verbose results from the server after execution.  Results may
+include debugging information, depending on the server's implementation.
+.TP
+\fB\-f\fR \fIfile\fR, \fB\-\-config \fIfile\fR
+By default,
+.BR ddupdate
+will search for a config file in /usr/local/etc/dyndns.conf, followed by
+/etc/dyndns.conf.  If this option is provided, search for the file in the
+given \fIfile\fR instead.
+.TP
+\fB\-l\fR \fIttl\fR, \fB\-\-ttl\fR \fIttl\fR
+Set the given \fIttl\fR on the updated DNS record.
+.TP
+\fB\-z\fR \fIzoneid\fR, \fB\-\-zoneid\fR \fIzoneid\fR
+Use the given \fIzoneid\fR as the Amazon Route53 zone ID for all given
+\fIfqdn\fRs.  Overrides options provided in any config file.
+.SH CONFIG FILE
+.SH "KNOWN ISSUES"
+There is no way to present different AWS zone IDs for multiple \fIfqdn\fRs
+on the command line without putting all the \fIfqdn\fRs into a config file.
+.PP
+The
+.BR ddupdate
+system blindly assumes any provided URL will only be reached via IPv4.  If
+the URL can also be accessed via IPv6, the result is undefined.  This should
+really be fixed at some point.
+.SH AUTHOR
+\fBuome\fR was written by Mike Shuey <shuey@fmepnet.org> and is licensed under
+the terms of the GNU Public License, version 3 or higher.
