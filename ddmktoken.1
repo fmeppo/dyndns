@@ -1,0 +1,36 @@
+.TH DDMKTOKEN 1
+.\" NAME should be all caps, SECTION should be 1-8, maybe w/ subsection
+.\" other parms are allowed; see man(7), man(1)
+.SH NAME
+ddmktoken \- A tool for making security tokens for ddupdate
+.SH SYNOPSIS
+.B ddmktoken
+.I [options] \fIfqdn\fR [\fIfqdn\fR ...]
+.SH "DESCRIPTION"
+Dynamic DNS updates via
+.BR ddupdate
+require a security token, to be passed to a remote server.  This token is a
+SHA-256 hash of the concatenation of the fully-qualified domain name to update,
+the Amazon zone ID of the domain receiving the update, and a secret known only
+to the remote server.
+.BR ddmktoken
+exists to automate creating a token for each provided \fIfqdn\fR, and printing
+them all out on the console.
+.SH OPTIONS
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Show a summary of options, then exit.
+.TP
+\fB\-z\fR \fIzoneid\fR, \fB\-\-zoneid\fR \fIzoneid\fR
+Create tokens based on \fIzoneid\fR.
+.TP
+\fB\-p\fR \fIpasswd\fR, \fB\-\-password\fR \fIpasswd\fR
+Use \fIpasswd\fR as the secret password/passphrase when calculating the token.
+If this option is omitted,
+.BR ddmktoken
+will prompt for a password.
+.SH "KNOWN ISSUES"
+None yet.
+.SH AUTHOR
+\fBuome\fR was written by Mike Shuey <shuey@fmepnet.org> and is licensed under
+the terms of the GNU Public License, version 3 or higher.
