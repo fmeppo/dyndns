@@ -30,7 +30,7 @@ vargs = vars(args)
 if vargs['config'] != None:
     conffile = [ vargs['config'] ]
 else:
-    conffile = ['/usr/local/etc/dyndns.conf', '/etc/dyndns.con']
+    conffile = ['/usr/local/etc/dyndns.conf', '/etc/dyndns.conf']
 
 config = configparser.RawConfigParser()
 for f in conffile:
